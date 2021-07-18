@@ -4,4 +4,4 @@
 4. User can request a detail view of the movie by pressing on a the result  item.
 5. Showing the details of the movie, with the poster of the movie on big size
 6. You can favorite/unfavorite from Details page
-7. Attached Video for reference. (Demo Video.mp4)
+7. Attached Video for reference. (AppFlow.mp4)
