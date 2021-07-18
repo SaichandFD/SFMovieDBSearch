@@ -15,7 +15,7 @@ public class VolleyNetwork {
 
     private RequestQueue requestQueue;
 
-    public void makeMovieSearchRequest(Context context, String name, OnNetworkResponseCallBack callBack) {
+    public void makeMovieSearchRequest(Context context, String name, OnMovieSearchResponseCallBack callBack) {
         String url = "https://www.omdbapi.com/?type=movie&s=" + name + "&apikey=9544fe4a";
         requestQueue = Volley.newRequestQueue(context);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -29,7 +29,7 @@ public class VolleyNetwork {
         requestQueue.add(stringRequest);
     }
 
-    public void makeMovieDetailsRequest(Context context, String imdb, OnNetworkDetailResponseCallBack callBack) {
+    public void makeMovieDetailsRequest(Context context, String imdb, OnMovieDetailResponseCallBack callBack) {
         String url = "https://www.omdbapi.com/?plot=full&i=" + imdb + "&apikey=9544fe4a";
         requestQueue = Volley.newRequestQueue(context);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -43,11 +43,11 @@ public class VolleyNetwork {
         requestQueue.add(stringRequest);
     }
 
-    public interface OnNetworkResponseCallBack {
+    public interface OnMovieSearchResponseCallBack {
         void onSuccess(MovieSearchResult result);
     }
 
-    public interface OnNetworkDetailResponseCallBack {
+    public interface OnMovieDetailResponseCallBack {
         void onSuccess(MovieDetail result);
     }
 }
