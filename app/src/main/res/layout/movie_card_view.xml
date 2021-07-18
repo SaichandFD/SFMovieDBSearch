@@ -13,12 +13,10 @@
     android:focusable="true"
     android:foreground="?selectableItemBackground">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <!--suppress AndroidLintContentDescription -->
+        >
         <ImageView
             android:id="@+id/thumbnail"
             android:transitionName="poster"
@@ -30,7 +28,7 @@
             android:id="@+id/movie_title"
             style="@style/TextAppearance.AppCompat.Subhead"
             android:textStyle="bold"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/card_padding_large"
             android:paddingTop="@dimen/card_padding_large"
@@ -38,7 +36,17 @@
             android:paddingBottom="@dimen/card_padding_medium"
             tools:text="Batman: The Dark Knight Returns, Part 2"
             android:ellipsize="end"
-            android:maxLines="4" />
+            android:maxLines="4"
+            android:layout_below="@id/thumbnail"/>
+
+        <ImageView
+            android:id="@+id/favorite_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/favorite"
+            android:visibility="gone"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true" />
 
         <TextView
             android:id="@+id/movie_year"
@@ -50,7 +58,8 @@
             android:paddingBottom="@dimen/card_padding_large"
             tools:text="2013"
             android:maxLines="1"
-            android:ellipsize="end" />
-    </LinearLayout>
+            android:ellipsize="end"
+            android:layout_below="@id/movie_title"/>
+    </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

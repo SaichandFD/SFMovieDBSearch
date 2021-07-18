@@ -30,7 +30,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements VolleyNet
     public static final String IMDB = "imdb";
     private ImageButton favoriteBtn;
     private DBHelper dbHelper;
-    private Movie favorite;
     private SQLiteDatabase dataBase;
     private boolean isFavorite = false;
     private MovieDetail movieDetail;
@@ -86,7 +85,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements VolleyNet
     }
     private void saveFavorite(){
         dbHelper = new DBHelper(getApplicationContext());
-        favorite = new Movie();
+        Movie favorite = new Movie();
         favorite.setYear(movieDetail.year);
         favorite.setPoster(movieDetail.poster);
         favorite.setImdbID(movieDetail.imdbID);

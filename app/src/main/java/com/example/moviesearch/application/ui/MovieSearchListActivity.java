@@ -94,8 +94,14 @@ public class MovieSearchListActivity extends AppCompatActivity
             final String title = movie.getTitle();
             final String imdbId = movie.getImdbID();
             final String year = movie.getYear();
-            holder.mTitleView.setText(title);
-            holder.mYearView.setText(year);
+            holder.titleView.setText(title);
+            holder.yearView.setText(year);
+
+            if(isFavoriteMovie(movie.getImdbID())){
+                holder.favoriteView.setVisibility(View.VISIBLE);
+            }else{
+                holder.favoriteView.setVisibility(View.GONE);
+            }
 
             final String imageUrl;
             if (!movie.getPoster().equals("N/A")) {
@@ -103,10 +109,10 @@ public class MovieSearchListActivity extends AppCompatActivity
             } else {
                 imageUrl = getResources().getString(R.string.default_poster);
             }
-            holder.mThumbImageView.layout(0, 0, 0, 0);
-            Glide.with(MovieSearchListActivity.this).load(imageUrl).into(holder.mThumbImageView);
+            holder.thumbNailImageView.layout(0, 0, 0, 0);
+            Glide.with(MovieSearchListActivity.this).load(imageUrl).into(holder.thumbNailImageView);
 
-            holder.mView.setOnClickListener(v -> {
+            holder.view.setOnClickListener(v -> {
                 Intent intent = new Intent(MovieSearchListActivity.this, MovieDetailsActivity.class);
                 intent.putExtra(MovieDetailsActivity.MOVIE_TITLE, title);
                 intent.putExtra(MovieDetailsActivity.IMAGE_URL, imageUrl);
@@ -114,7 +120,7 @@ public class MovieSearchListActivity extends AppCompatActivity
 
                 ActivityOptionsCompat options = ActivityOptionsCompat.
                         makeSceneTransitionAnimation(MovieSearchListActivity.this,
-                                holder.mThumbImageView, "poster");
+                                holder.thumbNailImageView, "poster");
                 startActivity(intent, options.toBundle());
             });
         }
@@ -128,24 +134,26 @@ public class MovieSearchListActivity extends AppCompatActivity
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
-            public final View mView;
-            public final TextView mTitleView;
-            public final TextView mYearView;
-            public final ImageView mThumbImageView;
+            public final View view;
+            public final TextView titleView;
+            public final TextView yearView;
+            public final ImageView thumbNailImageView;
+            public final ImageView favoriteView;
 
             public ViewHolder(View view) {
                 super(view);
-                mView = view;
-                mTitleView = (TextView) view.findViewById(R.id.movie_title);
-                mYearView = (TextView) view.findViewById(R.id.movie_year);
-                mThumbImageView = (ImageView) view.findViewById(R.id.thumbnail);
+                this.view = view;
+                titleView = (TextView) view.findViewById(R.id.movie_title);
+                yearView = (TextView) view.findViewById(R.id.movie_year);
+                thumbNailImageView = (ImageView) view.findViewById(R.id.thumbnail);
+                favoriteView = (ImageView) view.findViewById(R.id.favorite_button);
             }
         }
 
         @Override
         public void onViewRecycled(ViewHolder holder) {
             super.onViewRecycled(holder);
-            Glide.with(holder.mThumbImageView.getContext()).clear(holder.mThumbImageView);
+            Glide.with(holder.thumbNailImageView.getContext()).clear(holder.thumbNailImageView);
         }
 
         public void swapData(List<Movie> items) {
@@ -206,6 +214,22 @@ public class MovieSearchListActivity extends AppCompatActivity
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private boolean isFavoriteMovie(String imdbID){
+        List<Movie> favoriteMovies = getFavoriteMovies();
+        for(Movie movie: favoriteMovies){
+            if(movie.getImdbID().equals(imdbID)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mMovieAdapter.notifyDataSetChanged();
     }
 
     private List<Movie> getFavoriteMovies(){
